@@ -53,6 +53,8 @@ Once you create, u can use this command to activate it.
 source <your_env_name>/bin/activate
 ```
 
+Run the main.py to get the model running.
+
 ### Demo:
 
 Here are few plots of the model after 100 epochs of training and testing with the 900 evaluation images:

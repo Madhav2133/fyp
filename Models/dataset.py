@@ -1,4 +1,4 @@
-class Custom_Dataset(data.Dataset):
+class CreateDataset(data.Dataset):
     def __init__(self, path, phase, mode):
         self.path = path
         self.phase = phase
@@ -15,15 +15,11 @@ class Custom_Dataset(data.Dataset):
         with h5py.File(self.path, 'r') as path: 
             data = path["x" + str(self.phase)]
             return len(data)
-        
-test_tran_dataset = Custom_Dataset(path= r"/media/ram/338f6363-03b7-4ad7-a2be-40c31f59dee4/20230418_backup/ram/Students/B.Tech_2020/Madhav/mtnn/Datasets/NitrUAVCorridorV1/Translation(Angle))/TestTranslation(Angle).h5", phase= 'test', mode= "tran")
-test_rot_dataset = Custom_Dataset(path= r"/media/ram/338f6363-03b7-4ad7-a2be-40c31f59dee4/20230418_backup/ram/Students/B.Tech_2020/Madhav/mtnn/Datasets/NitrUAVCorridorV1/Rotation(Distance)/TestRotation(Distance).h5", phase= 'test', mode="rot")
 
-test_tran_loader = data.DataLoader(test_tran_dataset, batch_size=1)
-test_rot_loader = data.DataLoader(test_rot_dataset, batch_size=1)
-
-train_tran_dataset = Custom_Dataset(path= r"/media/ram/338f6363-03b7-4ad7-a2be-40c31f59dee4/20230418_backup/ram/Students/B.Tech_2020/Madhav/mtnn/Datasets/NitrUAVCorridorV1/Translation(Angle))/TrainTranslation(Angle).h5", phase= 'train', mode="tran")
-train_rot_dataset = Custom_Dataset(path= r"/media/ram/338f6363-03b7-4ad7-a2be-40c31f59dee4/20230418_backup/ram/Students/B.Tech_2020/Madhav/mtnn/Datasets/NitrUAVCorridorV1/Rotation(Distance)/TrainRotation(Distance).h5", phase= 'train', mode="rot")
-
-train_tran_loader = data.DataLoader(train_tran_dataset, batch_size=20)
-train_rot_loader = data.DataLoader(train_rot_dataset, batch_size=20)
+def normalize(label):
+    for i,j in enumerate(label):
+        label[i] = (j - 1.5) / (1.65 - 1.5)
+    return label
+def denormalize(label):
+    label = label * (1.65 - 1.5) + 1.5
+    return label
